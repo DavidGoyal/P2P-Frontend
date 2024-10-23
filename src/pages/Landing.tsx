@@ -16,7 +16,7 @@ const Landing = () => {
 	};
 
 	const getCam = async () => {
-		const stream = await navigator.mediaDevices.getUserMedia({
+		const stream = await window.navigator.mediaDevices.getUserMedia({
 			video: true,
 			audio: true,
 		});
