@@ -85,6 +85,8 @@ const Room = ({
 					});
 				}
 			};
+			//@ts-ignore
+			window.pcr = pc;
 
 			setTimeout(() => {
 				const track1 = pc.getTransceivers()[0].receiver.track;
