@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { io, Socket } from "socket.io-client";
 
-const URL = "http://localhost:3000";
+const URL = import.meta.env.VITE_BACKEND_URL;
 
 const Room = ({
 	name,
