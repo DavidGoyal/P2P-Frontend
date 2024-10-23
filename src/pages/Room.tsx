@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { useSearchParams } from "react-router-dom";
 import { io, Socket } from "socket.io-client";
 
 const URL = "http://localhost:3000";
@@ -13,12 +12,10 @@ const Room = ({
 	localAudioTrack: MediaStreamTrack;
 	localVideoTrack: MediaStreamTrack;
 }) => {
-	const [socket, setSocket] = useState<Socket | null>(null);
+	const [, setSocket] = useState<Socket | null>(null);
 	const [lobby, setLobby] = useState(true);
-	const [sendingPC, setSendingPC] = useState<RTCPeerConnection | null>(null);
-	const [receivingPC, setReceivingPC] = useState<RTCPeerConnection | null>(
-		null
-	);
+	const [, setSendingPC] = useState<RTCPeerConnection | null>(null);
+	const [, setReceivingPC] = useState<RTCPeerConnection | null>(null);
 	const [remoteVideoTrack, setRemoteVideoTrack] =
 		useState<MediaStreamTrack | null>(null);
 	const [remoteAudioTrack, setRemoteAudioTrack] =
@@ -75,7 +72,7 @@ const Room = ({
 			};
 		});
 
-		socket.on("answer", ({ sdp, roomID }) => {
+		socket.on("answer", ({ sdp }) => {
 			setLobby(false);
 
 			setSendingPC((pc) => {
