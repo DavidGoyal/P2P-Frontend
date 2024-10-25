@@ -5,10 +5,26 @@ const URL = import.meta.env.VITE_BACKEND_URL;
 
 const iceConfiguration: RTCConfiguration = {
 	iceServers: [
+		{ urls: "stun:stun.relay.metered.ca:80" },
 		{
-			urls: "turn:192.158.29.39:3478?transport=udp",
-			credential: "JZEOEt2V3Qb0y27GRntt2u2PAYA=",
-			username: "28224511:1379330808",
+			urls: "turn:global.relay.metered.ca:80",
+			username: "d490f11e657930dec32b831f",
+			credential: "G7efsIWMm+8ZBttT",
+		},
+		{
+			urls: "turn:global.relay.metered.ca:80?transport=tcp",
+			username: "d490f11e657930dec32b831f",
+			credential: "G7efsIWMm+8ZBttT",
+		},
+		{
+			urls: "turn:global.relay.metered.ca:443",
+			username: "d490f11e657930dec32b831f",
+			credential: "G7efsIWMm+8ZBttT",
+		},
+		{
+			urls: "turns:global.relay.metered.ca:443?transport=tcp",
+			username: "d490f11e657930dec32b831f",
+			credential: "G7efsIWMm+8ZBttT",
 		},
 	],
 };
