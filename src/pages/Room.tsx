@@ -60,7 +60,6 @@ const Room = ({
 
 			const pc = new RTCPeerConnection();
 			setReceivingPC(pc);
-			pc.setRemoteDescription(sdp);
 
 			const stream = new MediaStream();
 			if (remoteVideoRef.current) {
@@ -69,6 +68,24 @@ const Room = ({
 
 			setRemoteMediaStream(stream);
 
+			pc.ontrack = (e) => {
+				alert("ontrack");
+				console.error("inside ontrack");
+				const { track, type } = e;
+				if (type == "audio") {
+					setRemoteAudioTrack(track);
+					// @ts-ignore
+					remoteVideoRef.current.srcObject.addTrack(track);
+				} else {
+					setRemoteVideoTrack(track);
+					// @ts-ignore
+					remoteVideoRef.current.srcObject.addTrack(track);
+				}
+				//@ts-ignore
+				remoteVideoRef.current.play();
+			};
+
+			pc.setRemoteDescription(sdp);
 			const answer = await pc.createAnswer();
 			pc.setLocalDescription(answer);
 			socket.emit("answer", {
@@ -87,25 +104,6 @@ const Room = ({
 			};
 			//@ts-ignore
 			window.pcr = pc;
-
-			setTimeout(() => {
-				const track1 = pc.getTransceivers()[0].receiver.track;
-				const track2 = pc.getTransceivers()[1].receiver.track;
-				console.log(track1);
-				if (track1.kind === "video") {
-					setRemoteAudioTrack(track2);
-					setRemoteVideoTrack(track1);
-				} else {
-					setRemoteAudioTrack(track1);
-					setRemoteVideoTrack(track2);
-				}
-				//@ts-ignore
-				remoteVideoRef.current.srcObject.addTrack(track1);
-				//@ts-ignore
-				remoteVideoRef.current.srcObject.addTrack(track2);
-				//@ts-ignore
-				remoteVideoRef.current.play();
-			}, 5000);
 		});
 
 		socket.on("answer", ({ sdp }) => {
