@@ -3,6 +3,16 @@ import { io, Socket } from "socket.io-client";
 
 const URL = import.meta.env.VITE_BACKEND_URL;
 
+const iceConfiguration: RTCConfiguration = {
+	iceServers: [
+		{
+			urls: "turn:numb.viagenie.ca",
+			credential: "muazkh",
+			username: "webrtc@live.com",
+		},
+	],
+};
+
 const Room = ({
 	name,
 	localAudioTrack,
@@ -29,7 +39,7 @@ const Room = ({
 		socket.on("send-offer", async ({ roomID }) => {
 			setLobby(false);
 
-			const pc = new RTCPeerConnection();
+			const pc = new RTCPeerConnection(iceConfiguration);
 			setSendingPC(pc);
 
 			pc.addTrack(localAudioTrack);
@@ -58,7 +68,7 @@ const Room = ({
 		socket.on("offer", async ({ sdp, roomID }) => {
 			setLobby(false);
 
-			const pc = new RTCPeerConnection();
+			const pc = new RTCPeerConnection(iceConfiguration);
 			setReceivingPC(pc);
 
 			const stream = new MediaStream();
