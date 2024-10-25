@@ -95,8 +95,6 @@ const Room = ({
 			setRemoteMediaStream(stream);
 
 			pc.ontrack = (e) => {
-				alert("ontrack");
-				console.error("inside ontrack");
 				const { track, type } = e;
 				if (type == "audio") {
 					setRemoteAudioTrack(track);
@@ -166,11 +164,13 @@ const Room = ({
 	}, [name]);
 
 	useEffect(() => {
-		if (localVideoRef.current) {
-			localVideoRef.current.srcObject = new MediaStream([localVideoTrack]);
-			localVideoRef.current.play();
-		}
-	}, [localVideoRef]);
+		setTimeout(() => {
+			if (localVideoRef.current) {
+				localVideoRef.current.srcObject = new MediaStream([localVideoTrack]);
+				localVideoRef.current.play();
+			}
+		}, 3000);
+	}, [localVideoRef, localVideoTrack]);
 
 	if (lobby) {
 		return (
@@ -184,8 +184,8 @@ const Room = ({
 	return (
 		<div>
 			Hi {name}
-			<video autoPlay width={400} height={400} ref={localVideoRef} />
-			your
+			<video muted autoPlay width={400} height={400} ref={localVideoRef} />
+			other user
 			<video autoPlay width={400} height={400} ref={remoteVideoRef} />
 		</div>
 	);
