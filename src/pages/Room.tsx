@@ -184,7 +184,7 @@ const Room = ({
 	return (
 		<div>
 			Hi {name}
-			<video muted autoPlay width={400} height={400} ref={localVideoRef} />
+			<video width={400} height={400} ref={localVideoRef} />
 			other user
 			<video autoPlay width={400} height={400} ref={remoteVideoRef} />
 		</div>
